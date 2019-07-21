@@ -4,14 +4,23 @@ class ProdutosController < ApplicationController
     # mesmo nome da pag index
     @produtos = Produto.order(nome: :asc).limit(5)
     # o @ significa que é uma variável de instância
-    # que é compartilhado com todo o objeto
+    # que é compartilhado com todo o objeto e dá pra acessar a variável na view, por exemplo
     @produto_com_desconto = Produto.order(:preco).limit(1)
   end
 
+  def new
+    @produto = Produto.new
+  end
+
   def create
-    produto = params.require(:produto).permit(:nome, :descricao, :preco, :quantidade)
-    Produto.create produto
-    redirect_to root_path
+    valores = params.require(:produto).permit(:nome, :descricao, :preco, :quantidade)
+    @produto = Produto.new valores
+    if @produto.save
+      flash[:notice] = "Produto salvo com sucesso!"
+      redirect_to root_path
+    else
+      render :new
+    end
   end
 
   def destroy
