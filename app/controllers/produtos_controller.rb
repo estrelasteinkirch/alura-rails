@@ -2,7 +2,7 @@ class ProdutosController < ApplicationController
 
   def index
     # mesmo nome da pag index
-    @produtos = Produto.order(nome: :desc).limit(5)
+    @produtos = Produto.order(nome: :asc).limit(5)
     # o @ significa que é uma variável de instância
     # que é compartilhado com todo o objeto
     @produto_com_desconto = Produto.order(:preco).limit(1)
@@ -18,6 +18,11 @@ class ProdutosController < ApplicationController
     id = params[:id]
     Produto.destroy id
     redirect_to root_path
+  end
+
+  def busca
+    @nome = params[:nome]
+    @produtos = Produto.where "nome like ? ", "%#{@nome}%"
   end
 
 end
