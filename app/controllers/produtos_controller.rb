@@ -21,12 +21,12 @@ class ProdutosController < ApplicationController
       flash[:notice] = "Produto salvo com sucesso!"
       redirect_to root_path
     else
-      renderiza
+      renderiza :new
     end
   end
 
   def edit
-    renderiza
+    renderiza :edit
   end
 
   def update
@@ -34,7 +34,7 @@ class ProdutosController < ApplicationController
       flash[:notice] = "Produto atualizado com sucesso!"
       redirect_to root_path
     else
-      renderiza
+      renderiza :edit
     end
 
   end
@@ -49,6 +49,11 @@ class ProdutosController < ApplicationController
     @produtos = Produto.where "nome like ? ", "%#{@nome}%"
   end
 
+
+  private
+  #métodos internos e só se utilizam na classe
+
+
   def produto_params
     params.require(:produto).permit(:nome, :descricao, :preco, :quantidade, :departamento_id)
   end
@@ -57,8 +62,8 @@ class ProdutosController < ApplicationController
     @produto = Produto.find(params[:id])
   end
 
-  def renderiza
+  def renderiza(view)
     @departamentos = Departamento.all
-    render :new
+    render(view)
   end
 end
