@@ -55,7 +55,7 @@ class ProdutosController < ApplicationController
 
 
   def produto_params
-    params.require(:produto).permit(:nome, :descricao, :preco, :quantidade, :departamento)
+    params.require(:produto).permit(:nome, :descricao, :preco, :quantidade, :departamento_id)
   end
 
   def set_produto
